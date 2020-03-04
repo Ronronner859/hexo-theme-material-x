@@ -19,11 +19,16 @@
   float: left;
   .post-list {
     position: relative;
-    margin: 0px auto;
-    // columns: 400px;
-    column-gap: 0;
+    margin: @gap auto;
+    column-gap: @gap;
     @media(max-width: @on_phone) {
       margin: 0;
+    }
+    &.multiple-columns{
+      columns: 320px; // 支持多列
+    }
+    :first-child{
+      // margin-top: 0;
     }
   }
   ul.popular-posts{
@@ -101,7 +106,6 @@
         p{
           text-align: left;
           word-wrap: normal;
-          margin: 0;
           font-size: @fontsize_small;
           line-height: @fontsize_small * 1.5;
         }
@@ -124,6 +128,9 @@
         &:active {
           color: darken(@color_text_highlight, 25%);
         }
+      }
+      div.info a{
+        font-size: @fontsize_footnote;
       }
       .vhead{
         span{
@@ -289,30 +296,19 @@
       margin-left: 0;
       margin-right: 0;
       width: auto;
-      &:hover {
-        box-shadow: @boxshadow_card_normal;
-      }
     }
   }
   .post {
     position: relative;
     margin: @gap auto;
-    padding: 2*@gap 1.5*@gap;
-    background: @theme_cardbg;
+    padding: 1.5*@gap;
+    // background: @theme_cardbg;
     border-radius: @border_radius;
     h1{
       font-weight: normal;
       font-size: @fontsize_article_title;
       line-height: @lineheight_base;
       color: @color_text_main;
-    }
-    &:extend(.z-depth-main);
-    .enable-trans();
-    &:hover {
-      box-shadow: @boxshadow_card_raised;
-    }
-    &:active {
-      box-shadow: @boxshadow_card_normal;
     }
     @media(max-width: @on_phone) {
       border-radius: 0;
@@ -404,6 +400,36 @@
           color: fade(@color_text_main, 70%);
           font-size: @fontsize_small * 1;
           line-height: @metaH;
+          &.link-btns{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            .btn{
+              font-size: @fontsize_small * .9;
+              line-height: @metaH - 4px;
+              color: white;
+              padding: 0 4px;
+              border-radius: 2px;
+              margin: 2px;
+              &:extend(.hoverable);
+              &:hover{
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+              }
+              i{
+                padding-left: 3px;
+                font-size: @fontsize_small * 1;
+              }
+              p{
+                color: white;
+              }
+              &:hover{
+                color: white;
+                p{
+                  color: white;
+                }
+              }
+            }
+          }
           .notlink{
             cursor: default;
             &:hover{
@@ -561,7 +587,7 @@
 	transform: translate(-50%,-50%);
 	z-index: 99999;
 	text-align: center;
-	padding: 24px 36px;
+	padding: 24px 36px 22px 36px;
 	border-radius: @border_radius_code_block;
   box-shadow: @boxshadow_card_normal;
   font-family: @fontfamily_base;
@@ -569,27 +595,44 @@
   font-size: @fontsize_base;
 
   &.alert-success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
+    color: darken(@color_mac_maximize, 20%);
+    background-color: lighten(@color_mac_maximize, 40%);
   }
 
   &.alert-info {
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
+    color: darken(@color_mac_finder, 20%);
+    background-color: lighten(@color_mac_finder, 40%);
   }
 
   &.alert-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
+    color: darken(@color_mac_minimize, 20%);
+    background-color: lighten(@color_mac_minimize, 40%);
   }
 
   &.alert-danger {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
+    color: darken(@color_mac_close, 20%);
+    background-color: lighten(@color_mac_close, 40%);
   }
 
+}
+
+details {
+  display: block;
+  background: @color_bg_code_block;
+  padding: @gap;
+  margin: .6em 0;
+  border: 1px solid darken(@color_bg_code_block, 10%);
+  border-radius: @border_radius_code_block;
+  .enable-trans();
+  summary {
+    cursor: pointer;
+    padding: @gap;
+    margin: -@gap;
+    color: fade(@color_text_main, 70%);
+    font-size: @fontsize_base * .95;
+    font-weight: bold;
+    &:hover {
+      color: @color_text_highlight;
+    }
+  }
 }

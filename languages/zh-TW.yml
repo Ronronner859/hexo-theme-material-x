@@ -1,12 +1,13 @@
-sidebar:
-  category: 文章分類
-  tagcloud: 熱門標籤
-  toc: 本文目錄
-  related_posts: 相關文章
+navbar:
+  archive: 歸檔
+  category: 分類
+  tag: 標籤
 post:
   top: 置頂
   read_more: 閱讀全文
   sticky: 置頂
+  wordcount: '字數：%s字'
+  duration: '時長：%s分鐘'
   comments: 評論
   comments_placeholder: 無法加載%s評論系統，請確保您的網絡能夠正常訪問。
   copy_button: 複製
@@ -27,19 +28,9 @@ footer:
   total_views: 總訪問量為
   total_visitors: 總訪客量為
   times: 次
-search:
-  placeholder: 搜尋
 symbol:
   comma: "，"
   period: "。"
   colon: "："
   brackets_l: "（"
   brackets_r: "）"
-# 下面這是博主相關的
-navbar:
-  home: 主頁
-  blogs: 博客
-  categories: 分類
-  tags: 標籤
-  archives: 歸檔
-  friends: 朋友

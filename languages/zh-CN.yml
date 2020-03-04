@@ -1,12 +1,13 @@
-sidebar:
-  category: 文章分类
-  tagcloud: 热门标签
-  toc: 本文目录
-  related_posts: 相关文章
+navbar:
+  archive: 归档
+  category: 分类
+  tag: 标签
 post:
   top: 置顶
   read_more: 阅读全文
   sticky: 置顶
+  wordcount: '字数：%s字'
+  duration: '时长：%s分钟'
   comments: 评论
   comments_placeholder: 无法加载%s评论系统，请确保您的网络能够正常访问。
   copy_button: 复制
@@ -27,19 +28,9 @@ footer:
   total_views: 总访问量为
   total_visitors: 总访客量
   times: 次
-search:
-  placeholder: 搜索
 symbol:
   comma: "，"
   period: "。"
   colon: "："
   brackets_l: "（"
   brackets_r: "）"
-# 下面这是博主相关的
-navbar:
-  home: 主页
-  blogs: 博客
-  categories: 分类
-  tags: 标签
-  archives: 归档
-  friends: 朋友

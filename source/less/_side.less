@@ -16,73 +16,65 @@
 
 .widget{
   z-index: 0;
-  &:extend(.z-depth-main);
   background: @theme_cardbg;
   margin-top: @gap;
   font-family: @fontfamily_base;
   font-size: @fontsize_base;
-
   border-radius: @border_radius;
-  .enable-trans();
-  &:hover {
-    box-shadow: @boxshadow_card_raised;
-  }
-  &:active {
-    box-shadow: @boxshadow_card_normal;
-  }
-
   width: 100%;
-
+  display: none;
+  &.desktop{
+    display: block;
+  }
+  @media(max-width: @on_pad) {
+    display: none !important;
+    &.mobile{
+      display: block !important;
+    }
+  }
   @media(max-width: @on_phone) {
     width: ~"calc(100% - 2 * @{gap})";
     margin: @gap @gap 0 @gap;
+    display: none !important;
+    &.mobile{
+      display: block !important;
+    }
   }
-  max-height: ~"calc(100% - @{height_navbar} - 4 * @{gap})";
   header{
-    display: flex;
-    justify-content: space-between;
     border-top-left-radius: @border_radius;
     border-top-right-radius: @border_radius;
-    background-color: @color_bg_navbar;
-    color: @color_text_in_header;
     font-weight: bold;
     line-height: 1.5em;
-    padding: 8px @gap;
-    .rightBtn{
-      color: @color_text_in_header;
-      &:hover {
-        color: darken(@theme_main, 25%);
-        &.rotate90{
-          transform: rotate(90deg);
-        }
-      }
-    }
-    &.pure{
-      background-color: @theme_cardbg;
+    padding: ~"calc(@{gap} - 2px)";
+    padding-bottom: 0;
+    &,a{
       color: @theme_main;
-      padding-top: 14px; // 适合白色导航栏背景
-      padding-bottom: 14px; // 适合白色导航栏背景
-      .rightBtn{
-        color: @theme_main;
-        &:hover {
-          color: darken(@theme_main, 25%);
-        }
-      }
+    }
+    a:hover{
+      color: @color_text_highlight;
+    }
+    span.name{
+      margin-left: @gap/2;
     }
   }
   .content{
     text-align: justify;
-    padding: @gap/2;
+    padding: @gap/2 0;
     max-height: ~"calc(100% - @{height_navbar} - 12.5 * @{gap})";
+    max-width: 100%;
+    p {
+      margin: .6em 0;
+    }
     ul > li{
       a{
         color: fade(@color_text_main, 80%);
         padding: 0 @gap;
+        padding-left: @gap/2 + 4px;
         line-height: @height_cell;
         display: flex;
         justify-content: space-between;
         align-content: center;
-        border-left: 2px solid transparent;
+        border-left: 4px solid transparent;
         .enable-trans();
       }
     }
@@ -103,6 +95,15 @@
           border-left: 4px solid @theme_main;
           background: fade(@theme_main, 10%);
         }
+        &.active{
+          border-left: 4px solid @theme_main;
+          .name{
+            color: @theme_main;
+          }
+          .badge{
+            color: fade(@theme_main, 90%);
+          }
+        }
         &:active{
           border-left: 8px solid @theme_main;
         }
@@ -114,7 +115,7 @@
   }
 
 
-  &.author{
+  &.blogger{
     .enable-trans();
     .content{
       padding: 0;
@@ -148,6 +149,7 @@
         text-align: center;
         font-weight: bold;
         margin: @gap/2;
+        margin-top: @gap;
         @media(max-width: @on_pad){
           margin: @gap/2;
         }
@@ -163,7 +165,7 @@
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-        margin: 4px @gap/2;
+        margin: 4px @gap/4;
         a{
           color: fade(@color_text_main, 70%);
           padding: 0;
@@ -193,21 +195,18 @@
     }
     @media(max-width: @on_pad){
       box-shadow: none;
-      background: @theme_background;
+      background: transparent;
       margin-top: 2*@gap;
+      backdrop-filter: none;
     }
   }
 
-  &.plain{
+  &.text{
     .content{
       font-size: @fontsize_small;
-      font-weight: bold;
       word-break: break-all;
-      padding: @gap/2 @gap;
+      padding: @gap/4 @gap;
       line-height: @fontsize_small + 8px;
-      &.pure{
-        padding: 0 @gap @gap @gap; // 适合白色导航栏背景
-      }
       a{
         color: @color_text_link;
         .enable-trans();
@@ -219,15 +218,15 @@
           color: darken(@color_text_highlight, 25%);
         }
       }
+      p btn {
+        .btn-wrapper();
+      }
     }
   }
 
   &.list{
     .content{
       padding: @gap/2 0;
-      &.pure{
-        padding-top: 0; // 适合白色导航栏背景
-      }
       a{
         font-size: @fontsize_small;
         font-weight: bold;
@@ -254,10 +253,6 @@
   }
   &.grid{
     .content{
-      padding: @gap/2 0;
-      &.pure{
-        padding-top: 0; // 适合白色导航栏背景
-      }
       ul.grid{
         border: none;
         display: flex;
@@ -308,12 +303,8 @@
   }
   &.category{
     .content{
-      padding: @gap/2 0;
       font-size: @fontsize_small;
       font-weight: bold;
-      &.pure{
-        padding-top: 0; // 适合白色导航栏背景
-      }
     }
   }
 
@@ -321,9 +312,6 @@
     .content{
       text-align: justify;
       padding: @gap/2 @gap;
-      &.pure{
-        padding: 0 @gap @gap @gap; // 适合白色导航栏背景
-      }
       a{
         display:inline-block;
         .enable-trans(.1s);
@@ -336,40 +324,15 @@
     }
   }
 
-  &.music{
-    header{
-      &.pure{
-        padding-bottom: @gap/4; // 适合白色导航栏背景
-      }
-    }
-    .content{
-      padding: @gap/2+4px;
-      padding-top: @gap/2;
-      &.pure{
-        padding-top: @gap/4; // 适合白色导航栏背景
-      }
-      .aplayer{
-        border-radius: 4px;
-        color: #666;
-        font-family: @fontfamily_base;
-      }
-    }
-  }
-
   &.related_posts{
     .content{
-      padding: @gap/2 0;
       font-size: @fontsize_small;
       font-weight: bold;
-      &.pure{
-        padding-top: 0; // 适合白色导航栏背景
-      }
       h3{
         font-size: @fontsize_small;
         font-weight: bold;
         margin: 0;
         a{
-          // line-height: @fontsize_small*1.7;
           line-height: inherit;
           padding-top: 4px;
           padding-bottom: 4px;
@@ -378,4 +341,47 @@
     }
   }
 
+  &.qrcode{
+    .content{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+      padding-left: @gap;
+      padding-right: @gap;
+      img{
+        margin-bottom: 4px;
+      }
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.l_side > .widget.page{
+  .content{
+    padding-top: 0;
+    padding-left: @gap - 4px;
+    padding-right: @gap - 4px;
+  }
+}
+
+.aplayer-container{
+  display: flex;
+  justify-content: center;
+  min-height: 100px;
+  meting-js{
+    max-width: 100%;
+  }
+}
+.aplayer{
+  max-width: 500px;
+  border-radius: 4px;
+  color: @color_text_main;
+  font-family: @fontfamily_base;
+  .aplayer-list{
+    text-align: left;
+  }
+  @media(max-width: @on_phone){
+    border-radius: @border_radius;
+  }
 }

@@ -1,8 +1,9 @@
+<%- partial('_pre') %>
 <div class='l_main<%- page.sidebar == false ? ' no_sidebar' : '' %>'>
 	<% if (page.year || page.month) { %>
 		<%- partial('_partial/archive') %>
 	<% } else { %>
-	  <article id="archive-page" class="post article white-box">
+	  <article id="archive-page" class="post article white-box <%- theme.style.shadow.card ? 'card-shadow' : '' %> <%- theme.style.blur && theme.style.blur.widget ? 'widget-blur' : '' %>">
 	    <section class="archive">
 	      <%
 	        var year = -1, postid = -1;
@@ -16,7 +17,7 @@
 	          </div>
 	      <%  } %>
 	          <div class="archive-item archive-post mark">
-	            <a href="<%= url_for(post.path) %>">
+	            <a href="<%= url_for(post.link || post.path) %>">
 	              <time><%= date(post.date, 'MM-DD') %></time>
 	              <span class="title">
 	                <% if(post.title){ %>

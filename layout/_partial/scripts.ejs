@@ -1,24 +1,34 @@
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<%- js(theme.plugins.jquery) %>
 <% if (theme.search && theme.search.enable) { %>
   <script>
-    var GOOGLE_CUSTOM_SEARCH_API_KEY = "<%- theme.search.google_api_key %>";
-    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "<%- theme.search.google_engine_id %>";
-    var ALGOLIA_API_KEY = "<%- theme.search.algolia_api_key %>";
-    var ALGOLIA_APP_ID = "<%- theme.search.algolia_app_id %>";
-    var ALGOLIA_INDEX_NAME = "<%- theme.search.algolia_index_name %>";
-    var AZURE_SERVICE_NAME = "<%- theme.search.azure_service_name %>";
-    var AZURE_INDEX_NAME = "<%- theme.search.azure_index_name %>";
-    var AZURE_QUERY_KEY = "<%- theme.search.azure_query_key %>";
-    var BAIDU_API_ID = "<%- theme.search.baidu_api_id %>";
+    <% if(theme.search.service === 'baidu') { %>
+      var BAIDU_API_ID = "<%- config.baidu.apiId %>";
+    <%} else if(theme.search.service === 'algolia') { %>
+      var ALGOLIA_API_KEY = "<%- config.algolia.apiKey %>";
+      var ALGOLIA_APP_ID = "<%- config.algolia.applicationID %>";
+      var ALGOLIA_INDEX_NAME = "<%- config.algolia.indexName %>";
+    <%} else if(theme.search.service === 'azure') { %>
+      var AZURE_QUERY_KEY = "<%- config.azure.queryKey %>";
+      var AZURE_INDEX_NAME = "<%- config.azure.indexName %>";
+      var AZURE_SERVICE_NAME = "<%- config.azure.serviceName %>";
+    <%} else if(theme.search.service === 'google') { %>
+      var GOOGLE_CUSTOM_SEARCH_API_KEY = "<%- config.google.apiKey %>";
+      var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "<%- config.google.engineId %>";
+    <%}%>
     var SEARCH_SERVICE = "<%- theme.search.service%>" || "hexo";
-    var ROOT = "<%- config.root %>"||"/";
-    if(!ROOT.endsWith('/'))ROOT += '/';
+    var ROOT = "<%- config.root %>" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
   </script>
 <% } %>
-<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
-
-<% if (theme.scrollreveal == true) { %>
-  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+<% if (theme.plugins.instant_page) { %>
+  <script async src="<%- theme.plugins.instant_page %>" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+<% } %>
+<% if (theme.footer.aplayer.enable) { %>
+  <script async src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+<% } %>
+<% if (theme.plugins.scrollreveal) { %>
+  <script src="<%- theme.plugins.scrollreveal %>"></script>
   <script type="text/javascript">
     $(function() {
       const $reveal = $('.reveal');
@@ -28,8 +38,8 @@
     });
   </script>
 <% } %>
-<% if (theme.nodewaves == true) { %>
-  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+<% if (theme.plugins.nodewaves && theme.plugins.nodewaves.js) { %>
+  <%- js({src: theme.plugins.nodewaves.js, async: true }) %>
   <script type="text/javascript">
     $(function() {
       Waves.attach('.flat-btn', ['waves-button']);
@@ -42,20 +52,11 @@
     });
   </script>
 <% } %>
-<% if (theme.busuanzi == true) { %>
-  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
-<% } %>
-<% if (theme.fastclick == true) { %>
-  <!-- fastclick -->
-  <script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      FastClick.attach(document.body)
-    }, false)
-  </script>
+<% if (theme.plugins.busuanzi) { %>
+  <script async src="<%- theme.plugins.busuanzi %>"></script>
 <% } %>
 
-<% if (theme.backstretch && (theme.backstretch.images || page.images)) { %>
+<% if (theme.backstretch && theme.backstretch.enable && (theme.backstretch.images || page.images)) { %>
   <% var imgs = theme.backstretch.images || page.images; %>
   <% var posi = null;
   if (theme.backstretch.position == 'cover') {
@@ -63,7 +64,7 @@
   }
    %>
   <% if (imgs != undefined && theme.backstretch.position != undefined){ %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <%- js(theme.backstretch.js) %>
     <script type="text/javascript">
       $(function(){
         if ('<%- posi %>') {
@@ -156,15 +157,10 @@
 <% } %>
 
 <% if (enableValine){ %>
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <% if (theme.valine.volantis == true) { %>
-    <% if (config.use_cdn && theme.info && theme.info.cdn && theme.info.cdn.js && theme.info.cdn.js.volantis) { %>
-      <%- js(theme.info.cdn.js.volantis) %>
-    <% } else { %>
-      <%- js(['js/volantis.js']) %>
-    <% } %>
+  <% if (config.use_cdn && theme.info && theme.info.cdn && theme.info.cdn.js && theme.info.cdn.js.valine) { %>
+    <%- js(theme.info.cdn.js.valine) %>
   <% } else { %>
-    <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-valine@1.3.4/js/valine.min.js"></script>
+    <%- js(['js/valine.js']) %>
   <% } %>
   <script>
   var GUEST_INFO = ['nick','mail','link'];
@@ -179,8 +175,10 @@
     notify: notify,
     verify: verify,
     guest_info: guest_info,
-    <% if(page.valine && page.valine.path) { %>
+    <% if (page.valine && page.valine.path) { %>
       path: "<%= page.valine.path %>",
+    <% } else if (config.leancloud.valine_path) { %>
+      path: "<%= config.leancloud.valine_path %>",
     <% } %>
     appId: "<%= config.leancloud.app_id %>",
     appKey: "<%= config.leancloud.app_key %>",
@@ -188,6 +186,7 @@
     pageSize:'<%= theme.valine.pageSize %>',
     avatar:'<%= theme.valine.avatar %>',
     lang:'<%= theme.valine.lang %>',
+    visitor: '<%- theme.valine.visitor %>',
     highlight:'<%= theme.valine.highlight %>'
   })
   </script>
@@ -203,26 +202,20 @@
 <% } else { %>
   <%- js(['js/search.js']) %>
 <% } %>
-
-<% if (page.layout == 'links') { %>
-  <%- js('https://cdn.jsdelivr.net/gh/toddmotto/echo@1.7.3/src/echo.js') %>
-  <script>
-    echo.init({
-      offset: 100,
-      throttle: 250,
-      unload: false,
-      callback: function (element, op) {
-        // console.log(element, 'has been', op + 'ed');
-      }
-    });
-  </script>
-<% } %>
+<% if (theme.plugins.comment_typing) { %>
+  <%- js(theme.plugins.comment_typing) %>
+<%}%>
 
 <!-- 复制 -->
-<%- partial('_third-party/clipboard') %>
+<% if (theme.plugins.clipboard) { %>
+  <%- partial('_third-party/clipboard') %>
+<% } %>
+
 
 <!-- fancybox -->
-<%- partial('_third-party/fancybox') %>
+<% if (theme.plugins.fancybox) { %>
+  <%- partial('_third-party/fancybox') %>
+<% } %>
 
 
 <% if (config.import && config.import.script){ %>

@@ -1,7 +1,8 @@
-<section class='widget <%- item.widget %>'>
-  <%- partial('header', {item: item, defIcon: '', defTitle: ''}) %>
-  <div class='content <%= theme.style %>'>
-    <ul class="grid navgation">
+<%- partial('_pre') %>
+<section class="widget <%- item.class %> <%- page.widget_style %> <%- page.widget_platform %>">
+  <%- partial('header', {item: item}) %>
+  <div class='content'>
+    <ul class="grid navigation">
       <% (item.rows||[]).forEach(function(row){ %>
         <li><a class="flat-box" title="<%- url_for(row.url) %>" href="<%- url_for(row.url) %>"
           <% if (row.rel) { %>
